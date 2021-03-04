@@ -1,13 +1,22 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
+import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import { Provider as PaperProvider, useTheme } from 'react-native-paper';
+import theme from './src/CustomProperties/Themes';
+import MainScreen from './src/Screens/MainScreen';
 
 export default function App() {
+  const { colors } = useTheme();
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <PaperProvider theme={theme}>
+      <MainScreen />
+      <View style={styles.container}>
+        <Text style={{ color: colors.primary }}>
+          Open up App.js to start working on your app!
+        </Text>
+        <StatusBar style="auto" />
+      </View>
+    </PaperProvider>
   );
 }
 
