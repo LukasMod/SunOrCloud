@@ -15,6 +15,7 @@ const MainScreen = () => {
       <AppBar />
       <SearchBar handleSearch={handleSearch} />
       <Results city={search} />
+      {/* <Text>Hi</Text> */}
     </>
   );
 };

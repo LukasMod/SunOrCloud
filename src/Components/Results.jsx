@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Paragraph } from 'react-native-paper';
+import ResultsCard from './ResultsCard';
 
 const Results = ({ city }) => {
   const APIKey = '9e2ef6b2e07f629c3beaf257c5651bc2';
@@ -27,18 +28,6 @@ const Results = ({ city }) => {
           }
         }
         setWeatherArray(temporaryWeatherArray);
-
-        const time = new Date().toLocaleString();
-        //   this.setState((state) => ({
-        //     err: false,
-        //     date: time,
-        //     sunrise: data.sys.sunrise,
-        //     sunset: data.sys.sunset,
-        //     temp: data.main.temp,
-        //     pressure: data.main.pressure,
-        //     wind: data.wind.speed,
-        //     city: state.value,
-        //   }));
         console.log('data loaded');
       })
       .catch((err) => {
@@ -50,6 +39,18 @@ const Results = ({ city }) => {
       });
   };
 
+  const createCards =
+    weatherArray.length > 1
+      ? weatherArray.map((day, index) => (
+          <ResultsCard
+            key={`${index}-${day.dt}`}
+            temp={day.main.temp}
+            date={day.dt_txt}
+            iconCode={day.weather[0].icon}
+          />
+        ))
+      : null;
+
   React.useEffect(() => {
     if (city) {
       fetchData();
@@ -57,10 +58,16 @@ const Results = ({ city }) => {
   }, [city]);
 
   React.useEffect(() => {
-    console.log(weatherArray[0]);
+    console.log(weatherArray);
+    console.log(weatherArray);
   }, [weatherArray]);
 
-  return <Paragraph>{city}</Paragraph>;
+  return (
+    <>
+      <Paragraph>{city}</Paragraph>
+      {createCards}
+    </>
+  );
 };
 
 export default Results;

@@ -8,7 +8,7 @@ const SearchBar = ({ handleSearch }) => {
 
   return (
     <Searchbar
-      placeholder="Search"
+      placeholder="Search city"
       onChangeText={onChangeSearch}
       value={searchQuery}
       clearIcon="cancel"
