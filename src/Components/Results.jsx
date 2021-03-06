@@ -1,38 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { Paragraph, Title } from 'react-native-paper';
-import { ScrollView } from 'react-native';
+import React from 'react';
+import { Paragraph, Title, Button } from 'react-native-paper';
+import { ScrollView, ActivityIndicator } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
 import ResultsCard from './ResultsCard';
+import { resetWeather } from '../actions/weatherActions';
 
-const Results = ({ city }) => {
-  const APIKey = '9e2ef6b2e07f629c3beaf257c5651bc2';
-  const [weatherArray, setWeatherArray] = useState([]);
-  const [weatherCity, setWeatherCity] = useState({});
+const Results = () => {
+  const weatherArray = useSelector((state) => state.weather.weatherData);
+  const weatherCity = useSelector((state) => state.weather.weatherCity);
+  const isLoading = useSelector((state) => state.weather.isLoading);
+  const isError = useSelector((state) => state.weather.isError);
 
-  const fetchData = () => {
-    const API = `http://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${APIKey}&units=metric`;
-
-    fetch(API)
-      .then((response) => {
-        if (response.ok) {
-          return response;
-        }
-        throw Error('Nie udało się');
-      })
-      .then((response) => response.json())
-      .then((data) => {
-        let temporaryWeatherArray = [];
-        for (let i = 0; i < 40; i++) {
-          if (!(i % 8)) {
-            temporaryWeatherArray = [...temporaryWeatherArray, data.list[i]];
-          }
-        }
-        setWeatherArray(temporaryWeatherArray);
-        setWeatherCity(data.city);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+  const dispatch = useDispatch();
 
   const createCards =
     weatherArray.length > 1
@@ -41,23 +20,35 @@ const Results = ({ city }) => {
         ))
       : null;
 
-  useEffect(() => {
-    if (city) {
-      fetchData();
-    }
-  }, [city]);
+  if (isLoading)
+    return <ActivityIndicator size="large" style={{ marginTop: 40 }} />;
+  if (isError.status) {
+    return (
+      <Title>
+        Sorry, there are some problems. Try again later. Error: {isError.error}
+      </Title>
+    );
+  }
 
-  return weatherCity.name ? (
+  return (
     <>
-      <ScrollView>
-        <Title>
-          City: {weatherCity.name}, Country code: {weatherCity.country}
-        </Title>
-        <Paragraph>Weather for next 5 days:</Paragraph>
-        {createCards}
-      </ScrollView>
+      {weatherCity.name && (
+        <ScrollView>
+          <Title>
+            City: {weatherCity.name}, Country code: {weatherCity.country}
+          </Title>
+          <Paragraph>Weather for next 5 days:</Paragraph>
+          {createCards}
+          <Button
+            mode="contained"
+            onPress={() => dispatch(resetWeather())}
+            style={{ marginTop: 10 }}>
+            Reset
+          </Button>
+        </ScrollView>
+      )}
     </>
-  ) : null;
+  );
 };
 
 export default Results;

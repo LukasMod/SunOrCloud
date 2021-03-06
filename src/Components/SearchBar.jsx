@@ -1,19 +1,25 @@
 import React, { useState } from 'react';
 import { Searchbar } from 'react-native-paper';
+import { useDispatch } from 'react-redux';
+import { fetchWeather } from '../actions/weatherActions';
 
-const SearchBar = ({ handleSearch }) => {
+const SearchBar = () => {
   const [searchQuery, setSearchQuery] = useState('');
+  const dispatch = useDispatch();
 
-  const onChangeSearch = (text) => setSearchQuery(text);
+  const handleSearch = () => {
+    dispatch(fetchWeather(searchQuery));
+    setSearchQuery('');
+  };
 
   return (
     <Searchbar
       placeholder="Search city"
-      onChangeText={onChangeSearch}
+      onChangeText={(text) => setSearchQuery(text)}
       value={searchQuery}
       clearIcon="cancel"
-      onIconPress={() => handleSearch(searchQuery)}
-      onSubmitEditing={() => handleSearch(searchQuery)}
+      onIconPress={() => handleSearch()}
+      onSubmitEditing={() => handleSearch()}
       style={{ marginTop: 10 }}
     />
   );

@@ -1,23 +1,16 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import { Provider as PaperProvider, useTheme } from 'react-native-paper';
+import { Provider as PaperProvider } from 'react-native-paper';
+import { Provider } from 'react-redux';
+import store from './src/store/store';
 import theme from './src/CustomProperties/Themes';
 import MainScreen from './src/Screens/MainScreen';
 
 export default function App() {
-  const { colors } = useTheme();
   return (
-    <PaperProvider theme={theme}>
-      <MainScreen />
-    </PaperProvider>
+    <Provider store={store}>
+      <PaperProvider theme={theme}>
+        <MainScreen />
+      </PaperProvider>
+    </Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
