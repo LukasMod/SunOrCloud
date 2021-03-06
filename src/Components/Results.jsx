@@ -1,5 +1,5 @@
 import React from 'react';
-import { Paragraph, Title, Button } from 'react-native-paper';
+import { Paragraph, Title, Button, useTheme } from 'react-native-paper';
 import { ScrollView, ActivityIndicator } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import ResultsCard from './ResultsCard';
@@ -11,6 +11,8 @@ const Results = () => {
   const isLoading = useSelector((state) => state.weather.isLoading);
   const isError = useSelector((state) => state.weather.isError);
 
+  const { colors } = useTheme();
+
   const dispatch = useDispatch();
 
   const createCards =
@@ -21,7 +23,13 @@ const Results = () => {
       : null;
 
   if (isLoading)
-    return <ActivityIndicator size="large" style={{ marginTop: 40 }} />;
+    return (
+      <ActivityIndicator
+        size="large"
+        style={{ marginTop: 40 }}
+        color={colors.primary}
+      />
+    );
   if (isError.status) {
     return (
       <Title>
