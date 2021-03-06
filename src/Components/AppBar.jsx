@@ -1,11 +1,7 @@
-import * as React from 'react';
+import React from 'react';
 import { Appbar } from 'react-native-paper';
 
 const AppBar = () => {
-  const goBack = () => console.log('Went back');
-  const handleSearch = () => console.log('Searching');
-  const handleReset = () => console.log('Reset');
-
   return (
     <Appbar.Header>
       <Appbar.Content

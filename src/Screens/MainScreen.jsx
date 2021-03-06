@@ -1,11 +1,10 @@
-import * as React from 'react';
-import { Appbar } from 'react-native-paper';
+import React, { useState } from 'react';
 import SearchBar from '../Components/SearchBar';
 import AppBar from '../Components/AppBar';
 import Results from '../Components/Results';
 
 const MainScreen = () => {
-  const [search, setSearch] = React.useState('');
+  const [search, setSearch] = useState('');
   const handleSearch = (text) => {
     setSearch(text);
   };
@@ -15,7 +14,6 @@ const MainScreen = () => {
       <AppBar />
       <SearchBar handleSearch={handleSearch} />
       <Results city={search} />
-      {/* <Text>Hi</Text> */}
     </>
   );
 };
