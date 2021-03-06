@@ -22,7 +22,7 @@ Tested only on Android.
 Quick start
 1. Short way:
 - download Expo Client on your device
-- scan barcode: https://expo.io/@lukasmod/projects/sunorcloud
+- scan QR code: https://expo.io/@lukasmod/projects/sunorcloud
 
 2. Long way:
 - clone repo
